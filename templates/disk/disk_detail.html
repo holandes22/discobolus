@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load core_extras %}
+{% block body %}
+	<h2>Disk details</h2>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+			{% for key, value in disks.0.get_model_attrs %}
+				<th>{{ key|replace_under_with:" "|capfirst }}</th>
+			{% endfor %}	
+			</tr>
+		</thead>
+	    <tbody>
+		{% for disk in disks %}
+	        <tr>
+			{% for key, value in disk.get_model_attrs %}
+	            <td>{{ value|capfirst }}</td>
+			{% endfor %}
+	        </tr>
+	    </tbody>
+		{% endfor %}
+	</table>
+{% endblock body %}

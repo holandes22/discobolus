@@ -19,21 +19,28 @@
     <body>
         <div class="navbar navbar-fixed-top navbar-inverse">
           <div class="navbar-inner">
-            <a class="brand" href="#">Title</a>
-            <ul class="nav">
-              <li class="{% active request '^/$' %}">
-                <a href="/">Home</a>
-              </li>
-              <li class="{% active request 'contact/$' %}">
-                <a href="/contact/">Contact</a>
-              </li>
-              <li class="{% active request 'about/$' %}">
-                <a href="/about/">About</a>
-              </li>
-            </ul>
+            <div class="container">
+              <a class="brand" href="#">Title</a>
+              <ul class="nav">
+                <li class="{% active request '^/$' %}">
+                  <a href="/">Home</a>
+                </li>
+                <li class="{% active request 'contact/$' %}">
+                  <a href="/contact/">Contact</a>
+                </li>
+                <li class="{% active request 'about/$' %}">
+                  <a href="/about/">About</a>
+                </li>
+                <li class="{% active request 'disk/' %}">
+                  <a href="{% url disk-list %}">Disks</a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-    	{% block body %}
-    	{% endblock body %}
+      <div class="container">
+        {% block body %}
+        {% endblock body %}
+      </div>
     </body>
 </html>

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block body %}
+<p>Disks</p>
+{% for disk in disks %}
+	<div><a href={{ disk.get_absolute_url }}>{{ disk }}</a></div>
+{% endfor %}
+{% endblock body %}
