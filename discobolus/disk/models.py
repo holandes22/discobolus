@@ -10,7 +10,6 @@ class BaseDisk(BaseModel):
     name = models.CharField(max_length=200)
     filepath = models.CharField(max_length=250)
     size = models.IntegerField()
-    uuid = models.CharField(max_length = 200)
 
     class Meta:
         abstract = True
@@ -21,7 +20,8 @@ class BaseDisk(BaseModel):
 
 
 class Disk(BaseDisk):
-    pass
+
+    uuid = models.CharField(max_length = 200)
 
     @permalink
     def get_absolute_url(self):
@@ -29,4 +29,12 @@ class Disk(BaseDisk):
 
 class Partition(BaseDisk):
     parent = models.ForeignKey(Disk)
+    uuid = models.CharField(max_length = 200)
 
+class MultipathDisk(BaseDisk):
+
+    wwid = models.CharField(max_length = 200)
+
+    @permalink
+    def get_absolute_url(self):
+        return ('multipath-disk-detail', (), {'pk': self.pk})

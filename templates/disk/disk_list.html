@@ -1,7 +1,27 @@
 {% extends "base.html" %}
 {% block body %}
-<p>Disks</p>
-{% for disk in disks %}
-	<div><a href={{ disk.get_absolute_url }}>{{ disk }}</a></div>
-{% endfor %}
+<ul class="breadcrumb">
+	<li class="active">Disks<span class="divider">/</span></li>
+</ul>
+
+<ul class="nav nav-list">
+	{% if disks %}
+		<li class="nav-header">Local Disks</li>
+		{% for disk in disks %}
+		<li>
+			<a href="{{ disk.get_absolute_url }}">{{ disk }}</a>
+		</li>
+		{% endfor %}
+	{% endif %}
+	{% if multipath_disks %}
+		<li class="nav-header">Multipath Disks</li>
+		{% for multipath_disk in multipath_disks %}
+		<li>
+			<a href="{{ multipath_disk.get_absolute_url }}">{{ multipath_disk }}</a>
+		</li>
+		{% endfor %}
+	{% endif %}
+</ul>
 {% endblock body %}
+
+

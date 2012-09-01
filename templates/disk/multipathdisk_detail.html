@@ -3,21 +3,21 @@
 {% block body %}
 	<ul class="breadcrumb">
 		<li><a href="{% url disk-list %}">Disks</a><span class="divider">/</span></li>
-		<li class="active">Disk Details</a></li>
+		<li class="active">Multipath Disk Details</li>
 	</ul>
 
-	<h2>Disk Details</h2>
+	<h2>Multipath Disk Details</h2>
 	<table class="table table-bordered">
 		<thead>
 			<tr>
-			{% for key, value in disk.0.get_model_attrs %}
+			{% for key, value in multipath_disk.0.get_model_attrs %}
 				<th>{{ key|replace_under_with:" "|capfirst }}</th>
 			{% endfor %}	
 			</tr>
 		</thead>
 	    <tbody>
 	        <tr>
-				{% for key, value in disk.0.get_model_attrs %}
+				{% for key, value in multipath_disk.0.get_model_attrs %}
 		            <td>{{ value }}</td>
 				{% endfor %}
 	        </tr>
