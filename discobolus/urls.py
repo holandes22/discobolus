@@ -12,28 +12,8 @@ class HomeTemplateView(TemplateView):
         context['request'] = self.request
         return context
 
-class ContactTemplateView(TemplateView):
-    template_name = 'contact.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(ContactTemplateView, self).get_context_data(**kwargs)
-        context['request'] = self.request
-        return context
-
-class AboutTemplateView(TemplateView):
-    template_name = 'about.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(AboutTemplateView, self).get_context_data(**kwargs)
-        context['request'] = self.request
-        return context
-
-
 urlpatterns = patterns('',
     url(r'^$', HomeTemplateView.as_view()),
-    url(r'contact/$', ContactTemplateView.as_view()),
-    url(r'about/$', AboutTemplateView.as_view()),
-
     url(r'^disk/', include('discobolus.disk.urls')),
     # Examples:
     # url(r'^$', 'discobolus.views.home', name='home'),

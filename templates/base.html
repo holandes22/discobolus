@@ -20,16 +20,11 @@
         <div class="navbar navbar-fixed-top navbar-inverse">
           <div class="navbar-inner">
             <div class="container">
-              <a class="brand" href="#">Title</a>
+              <a class="brand" href="/">Discobolus</a>
               <ul class="nav">
+                <li class="divider-vertical"></li>
                 <li class="{% active request '^/$' %}">
                   <a href="/">Home</a>
-                </li>
-                <li class="{% active request 'contact/$' %}">
-                  <a href="/contact/">Contact</a>
-                </li>
-                <li class="{% active request 'about/$' %}">
-                  <a href="/about/">About</a>
                 </li>
                 <li class="{% active request 'disk/' %}">
                   <a href="{% url disk-list %}">Disks</a>
