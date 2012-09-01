@@ -31,6 +31,10 @@ class Partition(BaseDisk):
     parent = models.ForeignKey(Disk)
     uuid = models.CharField(max_length = 200)
 
+    @permalink
+    def get_absolute_url(self):
+        return ('partition-detail', (), {'parent_pk': self.parent.pk, 'pk': self.pk})
+
 class MultipathDisk(BaseDisk):
 
     wwid = models.CharField(max_length = 200)

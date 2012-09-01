@@ -1,39 +1,41 @@
 {% extends "base.html" %}
 {% block body %}
-<ul class="breadcrumb">
-	<li class="active">Disks<span class="divider">/</span></li>
-</ul>
+	<ul class="breadcrumb">
+		<li class="active">Disks<span class="divider">/</span></li>
+		<li><a>Disk Details</a><span class="divider">/</span></li>
+		<li><a>Partition Details</a></li>
+	</ul>
 
-<div class="row">
-	<div class="span6">
+	<div class="row">
 		{% if disks %}			
-			<div class="well" style="padding: 8px 0;">
-				<ul class="nav nav-list">
-						<li class="nav-header">Local Disks</li>
-						{% for disk in disks %}
-						<li>
-							<a href="{{ disk.get_absolute_url }}">{{ disk }}</a>
-						</li>
-						{% endfor %}
-				</ul>
+			<div class="span6">
+					<div class="well" style="padding: 8px 0;">
+						<ul class="nav nav-list">
+								<li class="nav-header">Local Disks</li>
+								{% for disk in disks %}
+								<li>
+									<a href="{{ disk.get_absolute_url }}">{{ disk }}</a>
+								</li>
+								{% endfor %}
+						</ul>
+					</div>
 			</div>
 		{% endif %}
-	</div>
-	<div class="span6">
 		{% if multipath_disks %}
-			<div class="well" style="padding: 8px 0;">
-				<ul class="nav nav-list">
-						<li class="nav-header">Multipath Disks</li>
-						{% for multipath_disk in multipath_disks %}
-						<li>
-							<a href="{{ multipath_disk.get_absolute_url }}">{{ multipath_disk }}</a>
-						</li>
-						{% endfor %}
-				</ul>
+			<div class="span6">
+					<div class="well" style="padding: 8px 0;">
+						<ul class="nav nav-list">
+								<li class="nav-header">Multipath Disks</li>
+								{% for multipath_disk in multipath_disks %}
+								<li>
+									<a href="{{ multipath_disk.get_absolute_url }}">{{ multipath_disk }}</a>
+								</li>
+								{% endfor %}
+						</ul>
+					</div>
 			</div>
 		{% endif %}
 	</div>
-</div>
 {% endblock body %}
 
 

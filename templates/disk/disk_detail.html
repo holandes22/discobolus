@@ -3,7 +3,8 @@
 {% block body %}
 	<ul class="breadcrumb">
 		<li><a href="{% url disk-list %}">Disks</a><span class="divider">/</span></li>
-		<li class="active">Disk Details</a></li>
+		<li class="active">Disk Details</a><span class="divider">/</span></li>
+		<li><a>Partition Details</a></li>
 	</ul>
 
 	<h2>Disk Details</h2>
@@ -12,7 +13,10 @@
 			<tr>
 			{% for key, value in disk.0.get_model_attrs %}
 				<th>{{ key|replace_under_with:" "|capfirst }}</th>
-			{% endfor %}	
+			{% endfor %}
+			{% if partitions %}
+				<th>Partitions</th>
+			{% endif %}
 			</tr>
 		</thead>
 	    <tbody>
@@ -20,6 +24,15 @@
 				{% for key, value in disk.0.get_model_attrs %}
 		            <td>{{ value }}</td>
 				{% endfor %}
+				{% if partitions %}
+					<td>
+						{% for partition in partitions %}
+							<ul>
+								<li><a href="{{ partition.get_absolute_url }}">{{ partition }}</a></li>
+							</ul>
+						{% endfor %}
+					</td>
+				{% endif %}
 	        </tr>
 	    </tbody>
 	</table>

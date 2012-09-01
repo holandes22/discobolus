@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from discobolus.disk.models import Disk, MultipathDisk
+from discobolus.disk.models import Disk, MultipathDisk, Partition
 
 class DiskListView(ListView):
 
@@ -21,8 +21,22 @@ class DiskDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DiskDetailView, self).get_context_data(**kwargs)
+        disk = self.get_queryset()
         context['request'] = self.request
-        context['disk'] = self.get_queryset()
+        context['disk'] = disk
+        context['partitions'] = Partition.objects.filter(parent=disk)
+        return context
+
+class PartitionDetailView(DetailView):
+
+    model = Partition
+
+    def get_context_data(self, **kwargs):
+        context = super(PartitionDetailView, self).get_context_data(**kwargs)
+        parent = Disk.objects.filter(pk=self.kwargs['parent_pk'])
+        context['request'] = self.request
+        context['parent'] = parent
+        context['partition'] = Partition.objects.filter(pk=self.kwargs['pk'])
         return context
 
 class MultipathDiskDetailView(DetailView):
