@@ -2,8 +2,6 @@ from django.db import models
 from discobolus.core.models import BaseModel
 from django.db.models import permalink
 
-# Create your models here.
-
 
 class BaseDisk(BaseModel):
 
@@ -18,27 +16,48 @@ class BaseDisk(BaseModel):
         return u'{0}'.format(self.filepath)
 
 
-
 class Disk(BaseDisk):
 
-    uuid = models.CharField(max_length = 200)
+    uuid = models.CharField(max_length=200)
 
     @permalink
     def get_absolute_url(self):
         return ('disk-detail', (), {'pk': self.pk})
 
+
 class Partition(BaseDisk):
     parent = models.ForeignKey(Disk)
-    uuid = models.CharField(max_length = 200)
+    uuid = models.CharField(max_length=200)
 
     @permalink
     def get_absolute_url(self):
         return ('partition-detail', (), {'parent_pk': self.parent.pk, 'pk': self.pk})
 
+
 class MultipathDisk(BaseDisk):
 
-    wwid = models.CharField(max_length = 200)
+    wwid = models.CharField(max_length=200)
 
     @permalink
     def get_absolute_url(self):
         return ('multipath-disk-detail', (), {'pk': self.pk})
+
+
+class PathGroup(BaseModel):
+
+    state = models.CharField(max_length=100)
+    priority = models.IntegerField()
+    multipath_disk = models.ForeignKey(MultipathDisk)
+
+    def __unicode__(self):
+        return u'{0}'.format(self.state)
+
+
+class Path(BaseModel):
+
+    name = models.CharField(max_length=150)
+    state = models.CharField(max_length=100)
+    path_group = models.ForeignKey(PathGroup)
+
+    def __unicode__(self):
+        return u'{0}'.format(self.name)

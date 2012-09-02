@@ -23,4 +23,27 @@
 	        </tr>
 	    </tbody>
 	</table>
+	
+	<h3>Path Information</h3>
+	{% for path_group_state, paths in paths_info.items %}
+		<span class="badge badge-info">Path group state: {{ path_group_state }}</span>
+		<table class="table table-striped table-condensed">
+			<thead>
+				<tr>
+				{% for key, value in paths.0.get_model_attrs %}
+					<th>{{ key|replace_under_with:" "|capfirst }}</th>
+				{% endfor %}	
+				</tr>
+			</thead>
+		    <tbody>
+		    	{% for path in paths %}
+		        <tr>
+					{% for key, value in path.get_model_attrs %}
+			            <td>{{ value }}</td>
+					{% endfor %}
+		        </tr>
+		        {% endfor %}
+		    </tbody>		
+		</table>
+	{% endfor %}
 {% endblock body %}
