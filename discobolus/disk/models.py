@@ -56,7 +56,7 @@ class PathGroup(BaseModel):
 class Path(BaseModel):
 
     name = models.CharField(max_length=150)
-    state = models.CharField(max_length=100)
+    physical_state = models.CharField(max_length=100, default='active')
     path_group = models.ForeignKey(PathGroup)
 
     def __unicode__(self):

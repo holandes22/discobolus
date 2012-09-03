@@ -42,7 +42,7 @@ for l in letters[0:3]:
         pg.save()
         r = 6 if switch else 8
         for lpath in letters[4:r]:
-            p = Path(name='sd{0}'.format(lpath), state='Active', path_group=pg)
+            p = Path(name='sd{0}'.format(lpath), physical_state='Active', path_group=pg)
             p.save()
     switch_pg = False
     switch = not switch
