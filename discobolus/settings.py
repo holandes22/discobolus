@@ -1,5 +1,6 @@
 # Django settings for discobolus project.
 import os
+from django.core.urlresolvers import reverse_lazy
 
 APP_DIR = os.path.abspath(os.path.dirname(globals()['__file__']))
 APP_PARENT_DIR = os.path.dirname(APP_DIR)
@@ -23,6 +24,9 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
+
+LOGIN_URL = reverse_lazy('django.contrib.auth.views.login')
+LOGIN_REDIRECT_URL = reverse_lazy('main')
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

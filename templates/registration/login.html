@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block body %}
+	{% if form.errors %}
+		<div class="alert alert-block">
+		  <button type="button" class="close" data-dismiss="alert">×</button>
+		  <h4>Log in error</h4>
+		  Sorry, invalid credentials.
+		</div>
+	{% endif %}
+
+	<form action="{% url login %}" method="post">
+	    {% csrf_token%}
+	    <legend>Please enter your credentials</legend>
+	    <label for="username">User name</label>
+	    <input type="text" name="username" value="" id="username" placeholder="User name">
+	    <label for="password">Password</label>
+	    <input type="password" name="password" value="" id="password" placeholder="Password">
+	    <br>
+	   	<button type="submit" class="btn">Submit</button>
+	    <input type="hidden" name="next" value="{{ next }}" />
+	</form>
+{% endblock body %}
