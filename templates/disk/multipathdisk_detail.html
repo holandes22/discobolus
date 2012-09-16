@@ -39,7 +39,7 @@
 		    	{% for path in paths %}
 		        <tr>
 					{% for key, value in path.get_model_attrs %}
-			            <td>{{ value }}</td>
+			            <td><span class="badge badge-info">{{ value }}</span></td>
 					{% endfor %}
 		        </tr>
 		        {% endfor %}
