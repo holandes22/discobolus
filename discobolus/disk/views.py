@@ -53,9 +53,6 @@ class MultipathDiskDetailView(DetailView):
         multipath_disk = self.get_queryset()
         context['multipath_disk'] = multipath_disk
         path_groups = PathGroup.objects.filter(multipath_disk=multipath_disk)
-        paths_info = {}
-        for path_group in path_groups:
-            paths_info[path_group.state] = Path.objects.filter(path_group=path_group)
-        context['paths_info'] = paths_info
+        context['path_groups'] = path_groups
         return context
 

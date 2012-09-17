@@ -52,6 +52,9 @@ class PathGroup(BaseModel):
     def __unicode__(self):
         return u'{0}'.format(self.state)
 
+    def is_active(self):
+        return self.state.lower() == 'active'
+
 
 class Path(BaseModel):
 
@@ -61,3 +64,6 @@ class Path(BaseModel):
 
     def __unicode__(self):
         return u'{0}'.format(self.name)
+
+    def is_active(self):
+        return self.physical_state.lower() == 'active'

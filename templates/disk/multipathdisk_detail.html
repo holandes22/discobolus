@@ -5,8 +5,6 @@
 		<li><a href="{% url disk-list %}">Disks</a><span class="divider">/</span></li>
 		<li class="active">Multipath Disk Details</li>
 	</ul>
-
-	<h2>Multipath Disk Details</h2>
 	<table class="table table-bordered">
 		<thead>
 			<tr>
@@ -24,26 +22,35 @@
 	    </tbody>
 	</table>
 	
-	<h3>Path Information</h3>
-	{% for path_group_state, paths in paths_info.items %}
-		<span class="badge badge-info">Path group state: {{ path_group_state }}</span>
-		<table class="table table-striped table-condensed">
+	{% for path_group in path_groups %}
+		<legend>
+			<p {% if path_group.is_active %}class="muted"{% else %}class="text-error"{% endif %}>
+				Path group {{ forloop.counter }} State: {{ path_group.state }}
+			</p>
+		</legend>
+		<table class="table table-hover table-condensed">
 			<thead>
 				<tr>
-				{% for key, value in paths.0.get_model_attrs %}
-					<th>{{ key|replace_under_with:" "|capfirst }}</th>
+				{% for key, value in path_group.path_set.all.0.get_model_attrs %}
+					{% if key != "path_group" %}
+						<th>{{ key|replace_under_with:" "|capfirst }}</th>
+					{% endif %}
 				{% endfor %}	
 				</tr>
 			</thead>
 		    <tbody>
-		    	{% for path in paths %}
-		        <tr>
-					{% for key, value in path.get_model_attrs %}
-			            <td><span class="badge badge-info">{{ value }}</span></td>
-					{% endfor %}
-		        </tr>
+		    	{% for path in path_group.path_set.all %}
+			        <tr {% if not path.is_active %}class="error"{% endif %}>
+						{% for key, value in path.get_model_attrs %}
+							{% if key != "path_group" %}
+				            	<td>
+				            		{{ value }}
+				            	</td>
+				            {% endif %}
+						{% endfor %}
+			        </tr>
 		        {% endfor %}
-		    </tbody>		
+		    </tbody>	
 		</table>
 	{% endfor %}
 {% endblock body %}
