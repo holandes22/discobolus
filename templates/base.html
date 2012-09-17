@@ -29,20 +29,31 @@
                 <li class="{% active request 'disk/' %}">
                   <a href="{% url disk-list %}">Disks</a>
                 </li>
+                <li class="{% active request 'lvm/' %}">
+                  <a href="#">Volume managers</a>
+                </li>
+                <li class="{% active request 'fs/' %}">
+                  <a href="#">Filesystems</a>
+                </li>
+                <li class="{% active request 'activity/' %}">
+                  <a href="#">Activity</a>
+                </li>
               </ul>
-              <div class="btn-group pull-right">
-                <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> User</a>
-                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#"><i class="icon-th"></i> Hello {{ user }}</a></li>
-                  <li class="divider"></li>
-                  {% if user.is_authenticated %}
-                    <li><a href="{% url logout %}"><i class="icon-arrow-down"></i> Log out</a></li>
-                  {% else %}
-                    <li><a href="{% url login %}"><i class="icon-arrow-up"></i> Log in</a></li>
-                  {% endif %}
-                </ul>
-              </div>
+              {% if user.is_authenticated %}
+                <div class="btn-group pull-right">
+                  <a class="btn btn-primary" href="#"><i class="icon-user icon-white"></i> Hello {{ user }}</a>
+                  <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#"><i class="icon-wrench"></i> Configuration</a></li>
+                    <li class="divider"></li>
+                      <li><a href="{% url logout %}"><i class="icon-arrow-down"></i> Log out</a></li>
+                  </ul>
+                </div>
+              {% else %}
+                <a class="btn btn-primary pull-right" href="{% url login %}"><i class="icon-user icon-white"></i> Log in</a>
+              {% endif %}
+
+
             </div>
           </div>
         </div>
