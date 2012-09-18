@@ -15,7 +15,15 @@
 		        {% endfor %}
 		    </tbody>
 		</table>
-		<button type="button" data-toggle="modal" data-target="#editor-dialog" onclick="$('#editor-dialog').load('{{ email_notification.get_update_url }}');">Update</button>
-		<button type="button" data-toggle="modal" data-target="#editor-dialog" onclick="$('#editor-dialog').load('{{ email_notification.get_delete_url }}');">Delete</button>
+		<button class="btn" data-toggle="modal" data-target="#editor-dialog" onclick="$('#editor-dialog').load('{{ email_notification.get_update_url }}');">Update</button>
+		<button class="btn" data-toggle="modal" data-target="#editor-dialog" onclick="$('#editor-dialog').load('{{ email_notification.get_delete_url }}');">Delete</button>
+		<button class="btn btn-primary" onclick="$('#send-test-email-response').load('{{ email_notification.get_send_test_email_url }}', function(e){$('#alert-banner').show()});">Send test e-mail</button>
+		<br>
+		<br>
+		<div class="alert hide" id="alert-banner">
+		 	<button type="button" class="close" data-dismiss="alert">×</button>
+		 	<div id="send-test-email-response"></div>
+		</div>
+		
 	{% endfor %}
 {% endif %}

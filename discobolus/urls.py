@@ -1,17 +1,10 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic import TemplateView
-from django.contrib.auth import login, logout
-
 from django.contrib import admin
+
+from discobolus.views import HomeTemplateView
+
 admin.autodiscover()
 
-class HomeTemplateView(TemplateView):
-    template_name = 'home.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(HomeTemplateView, self).get_context_data(**kwargs)
-        context['request'] = self.request
-        return context
 
 urlpatterns = patterns('',
     url(r'^$', HomeTemplateView.as_view(), name='main'),

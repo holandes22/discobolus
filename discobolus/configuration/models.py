@@ -1,13 +1,13 @@
 from django.db import models
-from django.forms import ModelForm
+from django import forms
 from django.contrib.auth.models import User
 from discobolus.core.models import make_custom_field_callback, get_permalink, BaseModel
-
 
 class EmailNotification(BaseModel):
 
     user = models.OneToOneField(User, unique=True)
-    smtp_server = models.CharField(max_length=200, help_text='SMTP server address and port. For example "smtp.gmail.com:587"')
+    smtp_server = models.CharField(max_length=200,
+            help_text='SMTP server address and port. For example "smtp.gmail.com:587"')
     smtp_server_port = models.PositiveIntegerField()
     email_recipient = models.EmailField(max_length=200)
     email_sender = models.EmailField(max_length=200)
@@ -23,10 +23,13 @@ class EmailNotification(BaseModel):
     def get_delete_url(self):
         return get_permalink('email-notification-delete', self.pk)
 
+    def get_send_test_email_url(self):
+        return get_permalink('email-notification-send-test', self.pk)
 
 
-class EmailNotificationForm(ModelForm):
+class EmailNotificationForm(forms.ModelForm):
     formfield_callback = make_custom_field_callback
+    #account_password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = EmailNotification

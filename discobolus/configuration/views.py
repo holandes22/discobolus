@@ -1,8 +1,21 @@
+from django.http import HttpResponse
 from django.views.generic import TemplateView, ListView
 from django.views.generic import CreateView, UpdateView, DeleteView
-
+from django.contrib.auth.decorators import login_required
 from discobolus.core.models import get_permalink
 from discobolus.configuration.models import EmailNotification, EmailNotificationForm
+from discobolus.configuration.notification.email import send_test_email
+
+
+@login_required
+def send_test_email_view(request, pk):
+    email_notification = EmailNotification.objects.filter(pk=pk)
+    try:
+        send_test_email(email_notification[0])
+        msg = 'e-mail sent succesfully'
+    except Exception as e:
+        msg = 'An error occurred.\nPlease check details. Error: %s' % (e,)
+    return HttpResponse(msg)
 
 
 class ConfigurationMainView(TemplateView):
@@ -24,7 +37,7 @@ class EmailNotificationListView(ListView):
 class EmailNotificationCreateView(CreateView):
 
     form_class = EmailNotificationForm
-    template_name = 'configuration/emailnotification_form.html'
+    template_name = 'editor.html'
 
     def get_success_url(self):
         return get_permalink('configuration-main')
@@ -43,7 +56,7 @@ class EmailNotificationCreateView(CreateView):
 class EmailNotificationUpdateView(UpdateView):
 
     form_class = EmailNotificationForm
-    template_name = 'configuration/emailnotification_form.html'
+    template_name = 'editor.html'
 
     def get_object(self):
         return EmailNotification.objects.get(pk=self.kwargs['pk'])
