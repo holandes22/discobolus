@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block extra_js %}
+<script type="text/javascript">
+</script>	
+{% endblock extra_js %}
+{% block body %}
+<legend>Configuration</legend>
+<div class="container">
+    <div class="row-fluid">
+        <div class="span2">
+            <!--Sidebar content-->
+        	<div class="well sidebar-nav" style="padding: 8px 0;">
+			    <ul class="nav nav-list">
+			    	<li class="nav-header">Notifications</li>
+				      	<li>
+				         	<ul class="nav nav-list">
+				             	<li>
+				             		
+				                 	<a href="#" url="{% url email-notification-list %}" data-target="#body-content" class="loadable-link">	
+				                 		e-mail
+				                  	</a>
+				              	</li>
+				           	    <li>
+				                	<a href="#" url="#" data-target="#body-content">
+				                		Twitter
+				                  	</a>
+				              	</li>
+				          	</ul>
+				      	</li>
+			      	<li class="divider"></li>          
+			    </ul>
+			</div> <!-- /well -->
+		</div>
+        <div class="span10">
+            <!--Body content-->
+            <div id="body-content"><p>Some starting text</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'south',
     'discobolus.core',
     'discobolus.disk',
+    'discobolus.configuration',
 )
 
 # A sample logging configuration. The only tangible logging
