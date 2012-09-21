@@ -15,7 +15,7 @@
 		        {% endfor %}
 		    </tbody>
 		</table>
-		<button class="btn" data-toggle="modal" data-target="#editor-dialog" onclick="$('#editor-dialog').load('{{ email_notification.get_update_url }}');">Update</button>
+		<button class="btn" data-toggle="modal" data-target="#editor-dialog" onclick="$('#editor-dialog').load('{{ email_notification.get_update_url }}');">Modify</button>
 		<button class="btn" data-toggle="modal" data-target="#editor-dialog" onclick="$('#editor-dialog').load('{{ email_notification.get_delete_url }}');">Delete</button>
 		<button class="btn btn-primary" onclick="$('#send-test-email-response').load('{{ email_notification.get_send_test_email_url }}', function(e){$('#alert-banner').show()});">Send test e-mail</button>
 		<br>
