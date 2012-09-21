@@ -25,10 +25,6 @@ class ConfigurationMainView(TemplateView):
     template_name = 'configuration/main.html'
 
 
-class NotificationSettingsView(TemplateView):
-
-    template_name = 'configuration/notification_settings.html'
-
     def get_context_data(self, **kwargs):
         # There should be one Settings per user.
         user = self.request.user
@@ -37,7 +33,7 @@ class NotificationSettingsView(TemplateView):
         except ObjectDoesNotExist:
             notification_settings = NotificationSettings(user=user)
             notification_settings.save()
-        context = super(NotificationSettingsView, self).get_context_data(**kwargs)
+        context = super(ConfigurationMainView, self).get_context_data(**kwargs)
         context['notification_settings'] = notification_settings
         return context
 
@@ -45,7 +41,7 @@ class NotificationSettingsView(TemplateView):
 class NotificationSettingsUpdateView(UpdateView):
 
     form_class = NotificationSettingsForm
-    template_name = 'editor.html'
+    template_name = 'configuration/notification_settings.html'
 
     def get_object(self):
         return NotificationSettings.objects.get(pk=self.kwargs['pk'])
@@ -57,6 +53,7 @@ class NotificationSettingsUpdateView(UpdateView):
         context = super(NotificationSettingsUpdateView, self).get_context_data(**kwargs)
         context['submit_url'] = get_permalink('notification-settings-update', self.kwargs['pk'])
         return context
+
 
 class EmailNotificationListView(ListView):
 

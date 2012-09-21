@@ -1,14 +1,16 @@
-{% load core_extras %}
-<table class="table table-striped table-condensed">
-    <tbody>
-    	{% for key, value in notification_settings.get_model_attrs %}
-        <tr>
-			<td><strong>{{ key|replace_under_with:" "|capfirst }}</strong></td>
-	        <td>{{ value }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<button class="btn" data-toggle="modal" data-target="#editor-dialog" onclick="$('#editor-dialog').load('{{ notification_settings.get_update_url }}');">
-	Update
-</button>
+<form id="editor-form" action={{ submit_url }} method="POST">
+	{% if not form.is_valid %}
+		<div class='hide'>invalid_form</div>
+	{% endif %}
+	{% csrf_token %}
+	<table>
+	    {% for field in form %}
+    		<tr>
+				<td>{{ field.label_tag }}</td>
+				<td class="form-field" title="{{ field.errors.as_text }}">{{ field }}</td>
+    		</tr>
+	    {% endfor %}
+    </table>
+  		<button type="submit" class="btn btn-primary">Save changes</button>
+  		<button type="button" class="btn" onclick="$(LAST_SELECTED_LOADABLE_LINK).click();">Cancel</button>
+</form>	
