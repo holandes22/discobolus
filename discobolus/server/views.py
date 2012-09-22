@@ -5,7 +5,7 @@ from django.contrib.formtools.wizard.views import CookieWizardView
 from discobolus.server.models import Server
 from discobolus.server.forms import AgentNetworkAddressForm, AddServerConfirmationForm
 
-FORMS = [
+ADD_SERVER_WIZARD_FORMS = [
         ("agent_network_address",  AgentNetworkAddressForm),
         ("add_server_confirmation",  AddServerConfirmationForm),
         ]
@@ -21,6 +21,9 @@ class AddServerWizard(CookieWizardView):
         setattr(self, 'extra_content', {})
         return super(AddServerWizard, self).__init__(*args, **kwargs)
 
+    def get_template_names(self):
+        return [TEMPLATES[self.steps.current]]
+
     def done(self, form_list, **kwargs):
         self.add_the_new_server(form_list)
         return HttpResponseRedirect('/')
@@ -29,11 +32,12 @@ class AddServerWizard(CookieWizardView):
         pass
 
     def process_step(self, form):
-        self.extra_content['agent_network_address'] = form.cleaned_data.get('agent_network_address', None)
+        if self.steps.current == 'agent_network_address':
+            self.extra_content['agent_network_address'] = form.cleaned_data.get('agent_network_address', None)
         return super(AddServerWizard, self).process_step(form)
 
     def get_form_initial(self, step):
-        if step == '1':
+        if step == 'add_server_confirmation':
             agent_network_address = self.extra_content['agent_network_address']
             conn = rpyc.classic.connect(agent_network_address)
             remote_platinfo = conn.modules['dmtcore.os.platinfo']
