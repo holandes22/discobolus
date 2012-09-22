@@ -16,12 +16,9 @@
         <div class="navbar navbar-fixed-top navbar-inverse">
           <div class="navbar-inner">
             <div class="container">
-              <a class="brand" href="/">Discobolus</a>
+              <a class="brand" href="{% url main %}">Discobolus</a>
               <ul class="nav">
                 <li class="divider-vertical"></li>
-                <li class="{% active request '^/$' %}">
-                  <a href="/">Home</a>
-                </li>
                 <li class="{% active request 'disk/' %}">
                   <a href="{% url disk-list %}">Disks</a>
                 </li>
@@ -33,6 +30,10 @@
                 </li>
                 <li class="{% active request 'activity/' %}">
                   <a href="#">Activity</a>
+                </li>
+                <li class="divider-vertical"></li>
+                <li class="{% active request '^/$' %}">
+                  <a href="/">Servers</a>
                 </li>
               </ul>
               {% if user.is_authenticated %}

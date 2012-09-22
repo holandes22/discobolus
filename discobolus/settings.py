@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     'discobolus.core',
     'discobolus.disk',
     'discobolus.configuration',
+    'discobolus.server',
 )
 
 # A sample logging configuration. The only tangible logging
