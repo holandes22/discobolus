@@ -1,10 +1,25 @@
-from django import forms
+import rpyc
 from django.http import HttpResponseRedirect
 from django.contrib.formtools.wizard.views import CookieWizardView
 
 from discobolus.server.models import Server
+from discobolus.server.forms import AgentNetworkAddressForm, AddServerConfirmationForm
+
+FORMS = [
+        ("agent_network_address",  AgentNetworkAddressForm),
+        ("add_server_confirmation",  AddServerConfirmationForm),
+        ]
+
+TEMPLATES = {
+            "agent_network_address": "server/agent_network_address.html",
+            "add_server_confirmation": "server/add_server_confirmation.html",
+            }
 
 class AddServerWizard(CookieWizardView):
+
+    def __init__(self, *args, **kwargs):
+        setattr(self, 'extra_content', {})
+        return super(AddServerWizard, self).__init__(*args, **kwargs)
 
     def done(self, form_list, **kwargs):
         self.add_the_new_server(form_list)
@@ -13,22 +28,26 @@ class AddServerWizard(CookieWizardView):
     def add_the_new_server(self, form_list):
         pass
 
-class AgentNetworkAddressForm(forms.Form):
-    agent_network_address = forms.GenericIPAddressField()
+    def process_step(self, form):
+        self.extra_content['agent_network_address'] = form.cleaned_data.get('agent_network_address', None)
+        return super(AddServerWizard, self).process_step(form)
 
-class AddServerConfirmationForm(forms.ModelForm):
+    def get_form_initial(self, step):
+        if step == '1':
+            agent_network_address = self.extra_content['agent_network_address']
+            conn = rpyc.classic.connect(agent_network_address)
+            remote_platinfo = conn.modules['dmtcore.os.platinfo']
+            details = remote_platinfo.get_platform_details()
+            return {
+                    'architecture': details.architecture,
+                    'release': details.release,
+                    'system': details.system,
+                    'hostname': details.hostname,
+                    'alias': details.hostname,
+                    'machine': details.machine,
+                    'processor': details.processor,
+                    'agent_network_address': agent_network_address,
+                    }
+        return super(AddServerWizard, self).get_form_initial(step)
 
-    class Meta:
-        model = Server
-        exclude = ['user']
-
-
-    #alias = forms.CharField(max_length=200, help_text='Alias for this server')
-    #hostname = forms.CharField(max_length=200)
-    #architecture = forms.CharField(max_length=20)
-    #machine = forms.CharField(max_length=200)
-    #processor = forms.CharField(max_length=200)
-    #system = forms.CharField(max_length=200)
-    #release = forms.CharField(max_length=200)
-    #agent_network_address = forms.GenericIPAddressField()
 
