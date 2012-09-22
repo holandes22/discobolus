@@ -19,8 +19,25 @@
               <a class="brand" href="{% url main %}">Discobolus</a>
               <ul class="nav">
                 <li class="divider-vertical"></li>
+                <li class="{% active request 'server/' %}">
+                  <a href="{% url server-list %}">Servers</a>
+                </li>
+                <li>
+                  <div class="btn-group">
+                    <a class="btn" href="#"><i class=" icon-th"></i> someserver </a>
+                    <a class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="{% url server-create %}">Add server</a></li>
+                      <li class="divider"></li>
+                      {% for server in request.user.get_profile.get_servers %}
+                        <li><a href="#">{{ server }}</a></li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </li>
+                <li class="divider-vertical"></li>
                 <li class="{% active request 'disk/' %}">
-                  <a href="{% url disk-list %}">Disks</a>
+                  <a href="{% url disk-list %}"><i class="icon-hdd icon-white"></i> Disks</a>
                 </li>
                 <li class="{% active request 'lvm/' %}">
                   <a href="#">Volume managers</a>
@@ -32,9 +49,8 @@
                   <a href="#">Activity</a>
                 </li>
                 <li class="divider-vertical"></li>
-                <li class="{% active request '^/$' %}">
-                  <a href="/">Servers</a>
-                </li>
+
+
               </ul>
               {% if user.is_authenticated %}
                 <div class="btn-group pull-right">

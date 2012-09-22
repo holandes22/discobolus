@@ -1,12 +1,31 @@
 from django.db import models
 from django import forms
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+
 from discobolus.core.models import make_custom_field_callback, get_permalink, BaseModel
+from discobolus.server.models import Server
+
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        profile, created = UserProfile.objects.get_or_create(user=instance)
+
+post_save.connect(create_user_profile, sender=User)
+
+
+class UserProfile(models.Model):
+    # This field is required.
+    user = models.OneToOneField(User)
+
+    def get_servers(self):
+        return Server.objects.filter(user=self)
+
 
 class NotificationSettings(BaseModel):
 
     user = models.OneToOneField(User, unique=True)
     notify = models.BooleanField(default=False)
+    notify_on_agent_failure = models.BooleanField(default=True)
     notify_on_disk_failure = models.BooleanField(default=True)
     notify_on_path_failure = models.BooleanField(default=True)
     notify_on_logical_volume_manager_event = models.BooleanField(default=True,

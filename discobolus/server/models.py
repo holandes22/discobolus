@@ -1,12 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from discobolus.core.models import BaseModel
-from django.db.models import permalink
+from discobolus.core.models import get_permalink
 
 
 class Server(BaseModel):
-
-    user = models.ForeignKey(User)
+    user = models.ManyToManyField(User)
     alias = models.CharField(max_length=200, help_text='Alias for this server')
     hostname = models.CharField(max_length=200)
     architecture = models.CharField(max_length=20)
@@ -19,4 +18,5 @@ class Server(BaseModel):
     def __unicode__(self):
         return u'{0}'.format(self.hostname)
 
-
+    def get_update_url(self):
+        return get_permalink('server-update', self.pk)

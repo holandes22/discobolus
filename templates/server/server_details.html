@@ -1,0 +1,16 @@
+<form id="editor-form" action={{ submit_url }} method="POST">
+	{% if not form.is_valid %}
+		<div class='hide'>invalid_form</div>
+	{% endif %}
+	{% csrf_token %}
+	<table>
+	    {% for field in form %}
+    		<tr>
+				<td>{{ field.label_tag }}</td>
+				<td class="form-field" title="{{ field.errors.as_text }}">{{ field }}</td>
+    		</tr>
+	    {% endfor %}
+    </table>
+  		<button type="submit" class="btn btn-primary">Save changes</button>
+  		<button type="button" class="btn" onclick="$(LAST_SELECTED_LOADABLE_LINK).click();">Cancel</button>
+</form>	

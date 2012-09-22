@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block extra_js %}
+<script type="text/javascript">
+</script>	
+{% endblock extra_js %}
+{% block body %}
+	<legend>Attached Servers</legend>
+	<div class="container">
+	    <div class="row-fluid">
+	        <div class="span2">
+	            <!--Sidebar content-->
+	        	<div class="well sidebar-nav" style="padding: 8px 0;">
+				    <ul class="nav nav-list">
+				    	{% if linux_servers %}
+					    	<li class="nav-header">Linux</li>
+					    	{% for linux_server in linux_servers %}
+					    		<li>
+									<a href="#" url="{{ linux_server.get_update_url }}" data-target="#body-content" class="loadable-link">
+										{{ linux_server }}
+						             </a>			    			
+					    		</li>
+				    		{% endfor %}
+				    	{% endif %}
+				    	<li class="divider"></li>
+				    	{% if windows_servers %}
+				    		<li class="nav-header">Windows</li>
+				    		{% for windows_server in windows_servers %}
+					    		<li>
+									<a href="#" url="{{ windows_server.get_update_url }}" data-target="#body-content" class="loadable-link">
+										{{ windows_server }}
+						             </a>			    			
+					    		</li>
+				    		{% endfor %}
+			    		{% endif %}
+				    </ul>        
+				</div> <!-- /well -->
+			</div>
+	        <div class="span10">
+	            <!--Body content-->
+	            <div id="body-content"><p>Some starting text</p>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+{% endblock body %}

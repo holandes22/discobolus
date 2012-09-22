@@ -28,6 +28,7 @@ DATABASES = {
 LOGIN_URL = reverse_lazy('django.contrib.auth.views.login')
 LOGIN_REDIRECT_URL = reverse_lazy('main')
 
+AUTH_PROFILE_MODULE = 'configuration.UserProfile'
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
