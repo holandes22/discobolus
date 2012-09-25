@@ -65,8 +65,10 @@ class ServerListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ServerListView, self).get_context_data(**kwargs)
         context['request'] = self.request
-        context['linux_servers'] = Server.objects.filter(system__icontains='linux')
-        context['windows_servers'] = Server.objects.filter(system__icontains='windows')
+        context['linux_servers'] = Server.objects.filter(system__icontains='linux',
+                user=self.request.user)
+        context['windows_servers'] = Server.objects.filter(system__icontains='windows',
+                user=self.request.user)
         return context
 
 class ServerUpdateView(UpdateView):

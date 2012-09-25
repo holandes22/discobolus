@@ -1,4 +1,6 @@
 var LAST_SELECTED_LOADABLE_LINK
+var LAST_SELECTED_SERVER_ALIAS = ""
+var LAST_SELECTED_SERVER_ID = null
 
 function addActiveClass(element){
     $(".loadable-link").parent().removeClass('active')
@@ -31,6 +33,19 @@ function loadDialog(){
 	})
 }
 
+
+function loadWizardStep(){
+	target = $(this).attr('data-target')
+	$.ajax({
+		url: $(form_selector).attr('action'),
+		type: 'POST',
+		data:  $(form_selector).serialize(),
+    	success: function(data, textStatus, jqXHR){
+    		$(target).html(data);
+    	},
+	})
+}
+
 function loadDeleteConfirmDialog(){
 	dialog_selector = "#warning-dialog"
 	form_selector = "#warning-form"
@@ -50,6 +65,12 @@ function loadDeleteConfirmDialog(){
 }
 
 $(document).ready(function () {
+	$('.server-selection').live('click', function(e){
+		addActiveClass(this);
+		LAST_SELECTED_SERVER = $(this).attr('server-alias')
+		LAST_SELECTED_SERVER_ID = $(this).attr('server-id')
+		$('#last-selected-server').html(LAST_SELECTED_SERVER)
+	})
     $('.loadable-link').live('click', function(e) {
     	LAST_SELECTED_LOADABLE_LINK = this
         addActiveClass(this);

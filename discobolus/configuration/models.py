@@ -20,6 +20,8 @@ class UserProfile(models.Model):
     def get_servers(self):
         return Server.objects.filter(user=self)
 
+    def has_servers(self):
+        return Server.objects.count() > 0
 
 class NotificationSettings(BaseModel):
 
@@ -37,7 +39,6 @@ class NotificationSettings(BaseModel):
 
     def get_update_url(self):
         return get_permalink('notification-settings-update', self.pk)
-
 
 
 class NotificationSettingsForm(forms.ModelForm):
