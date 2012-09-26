@@ -12,27 +12,51 @@
 	        	<div class="well sidebar-nav" style="padding: 8px 0;">
         		
 				    <ul class="nav nav-list">
+				    	<li class="nav-header">Linux</li>
 				    	{% if linux_servers %}
-					    	<li class="nav-header">Linux</li>
 					    	{% for linux_server in linux_servers %}
 					    		<li>
 									<a href="#" url="{{ linux_server.get_update_url }}" data-target="#body-content" class="loadable-link">
-										{{ linux_server }}
+										{{ linux_server.alias }}
 						             </a>			    			
 					    		</li>
 				    		{% endfor %}
+				    	{% else %}
+				    	<li>
+				    		<strong>None</strong>
+				    	</li>
 				    	{% endif %}
 				    	<li class="divider"></li>
+				    	<li class="nav-header">Windows</li>
 				    	{% if windows_servers %}
-				    		<li class="nav-header">Windows</li>
 				    		{% for windows_server in windows_servers %}
 					    		<li>
 									<a href="#" url="{{ windows_server.get_update_url }}" data-target="#body-content" class="loadable-link">
-										{{ windows_server }}
+										{{ windows_server.alias }}
 						             </a>			    			
 					    		</li>
 				    		{% endfor %}
+				    	{% else %}
+				    	<li>
+				    		<strong>None</strong>
+				    	</li>
 			    		{% endif %}
+			    		<li class="divider"></li>
+			    		<li class="nav-header">Other</li>
+				    	{% if other_servers %}
+				    		{% for server in other_servers %}
+					    		<li>
+									<a href="#" url="{{ server.get_update_url }}" data-target="#body-content" class="loadable-link">
+										{{ server.alias }}
+						             </a>			    			
+					    		</li>
+				    		{% endfor %}
+				    	{% else %}
+				    	<li>
+				    		<strong>None</strong>
+				    	</li>
+			    		{% endif %}
+			    		<li class="divider"></li>
 				    </ul>        
 				</div> <!-- /well -->
 			</div>

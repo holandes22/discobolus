@@ -3,6 +3,8 @@ from django.views.generic import ListView, DetailView
 from django.views.generic import UpdateView
 from django.http import HttpResponseRedirect
 from django.contrib.formtools.wizard.views import CookieWizardView
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 from discobolus.core.models import get_permalink
 from discobolus.server.models import Server
@@ -19,12 +21,19 @@ TEMPLATES = {
             }
 
 
+@login_required
+def set_selected_server(request, server_pk):
+    request.session['server_pk'] = server_pk
+    # TODO: Change to get_object_or_404
+    server = Server.objects.get(pk=server_pk)
+    request.session['selected_server_alias'] = server.alias
+    return HttpResponse(server.alias)
+
 class AddServerWizard(CookieWizardView):
 
     def __init__(self, *args, **kwargs):
         self.connection_failed = True
         super(AddServerWizard, self).__init__(*args, **kwargs)
-
 
     def get_template_names(self):
         return [TEMPLATES[self.steps.current]]
@@ -43,7 +52,6 @@ class AddServerWizard(CookieWizardView):
 
     def get_context_data(self, form, **kwargs):
         context = super(AddServerWizard, self).get_context_data(form=form, **kwargs)
-        context['request'] = self.request
         context['connection_failed'] = self.connection_failed
         return context
 
@@ -78,11 +86,11 @@ class ServerListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ServerListView, self).get_context_data(**kwargs)
-        context['request'] = self.request
         context['linux_servers'] = Server.objects.filter(system__icontains='linux',
                 user=self.request.user)
         context['windows_servers'] = Server.objects.filter(system__icontains='windows',
                 user=self.request.user)
+        context['other_servers'] = Server.objects.filter(user=self.request.user).exclude(system__icontains='windows').exclude(system__icontains='linux')
         return context
 
 class ServerUpdateView(UpdateView):

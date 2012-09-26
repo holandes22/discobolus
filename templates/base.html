@@ -30,7 +30,7 @@
                         <li class="nav-header">Select a Server</li>
                         {% if user.get_profile.has_servers %}
                           {% for server in request.user.get_profile.get_servers %}
-                            <li><a href="#" class="server-selection" server-id="{{ server.pk }}" server-alias="{{ server.alias }}">{{ server }}</a></li>
+                            <li><a href="#" class="server-selection" server-id="{{ server.pk }}">{{ server }}</a></li>
                           {% endfor %}
                         {% else %}
                           <li><a href="#">No servers for this account</a></li>
@@ -38,7 +38,7 @@
                     </ul>
                   </li>
                   <li>
-                    <a href="#" ><span class="label label-info" id="last-selected-server-alias">No selection</span></a>
+                    <a href="#" ><span class="label label-info" id="last-selected-server-alias">{{ selected_server_alias }}</span></a>
                   </li>     
                   <li class="divider-vertical"></li>
                   <li class="{% active request 'disk/' %}">

@@ -1,6 +1,7 @@
 # Django settings for discobolus project.
 import os
 from django.core.urlresolvers import reverse_lazy
+import django.conf.global_settings as DEFAULT_SETTINGS
 
 APP_DIR = os.path.abspath(os.path.dirname(globals()['__file__']))
 APP_PARENT_DIR = os.path.dirname(APP_DIR)
@@ -27,6 +28,11 @@ DATABASES = {
 
 LOGIN_URL = reverse_lazy('django.contrib.auth.views.login')
 LOGIN_REDIRECT_URL = reverse_lazy('main')
+
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request',
+    'discobolus.core.context_processors.selected_server_alias',
+)
 
 AUTH_PROFILE_MODULE = 'configuration.UserProfile'
 # Local time zone for this installation. Choices can be found here:

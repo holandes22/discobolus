@@ -16,7 +16,7 @@ class Server(BaseModel):
     agent_network_address = models.GenericIPAddressField()
 
     def __unicode__(self):
-        return u'{0}'.format(self.hostname)
+        return u'{0}'.format(self.alias)
 
     def get_update_url(self):
         return get_permalink('server-update', self.pk)

@@ -5,6 +5,14 @@
 	</ul>
 
 	<div class="row">
+		{% if server_not_selected %}
+		<div class="span12">
+			<div class="alert">
+			  <button type="button" class="close" data-dismiss="alert">×</button>
+			  <strong>Warning!</strong> Server not selected.
+			</div>
+		</div>
+		{% endif %}
 		{% if disks %}			
 			<div class="span6">
 					<div class="well" style="padding: 8px 0;">

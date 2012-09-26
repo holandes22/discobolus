@@ -8,9 +8,11 @@ class DiskListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(DiskListView, self).get_context_data(**kwargs)
-        context['request'] = self.request
-        context['disks'] = Disk.objects.all()
-        context['multipath_disks'] = MultipathDisk.objects.all()
+        if 'server_pk' in self.request.session:
+            context['disks'] = Disk.objects.filter(server=self.request.session['server_pk'])
+            context['multipath_disks'] = MultipathDisk.objects.filter(server=self.request.session['server_pk'])
+        else:
+            context['server_not_selected'] = True
         return context
 
 class DiskDetailView(DetailView):
@@ -23,7 +25,6 @@ class DiskDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(DiskDetailView, self).get_context_data(**kwargs)
         disk = self.get_queryset()
-        context['request'] = self.request
         context['disk'] = disk
         context['partitions'] = Partition.objects.filter(parent=disk)
         return context
@@ -35,7 +36,6 @@ class PartitionDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(PartitionDetailView, self).get_context_data(**kwargs)
         parent = Disk.objects.filter(pk=self.kwargs['parent_pk'])
-        context['request'] = self.request
         context['parent'] = parent
         context['partition'] = Partition.objects.filter(pk=self.kwargs['pk'])
         return context
@@ -49,7 +49,6 @@ class MultipathDiskDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(MultipathDiskDetailView, self).get_context_data(**kwargs)
-        context['request'] = self.request
         multipath_disk = self.get_queryset()
         context['multipath_disk'] = multipath_disk
         path_groups = PathGroup.objects.filter(multipath_disk=multipath_disk)

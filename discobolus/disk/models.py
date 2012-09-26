@@ -1,7 +1,8 @@
 from django.db import models
-from discobolus.core.models import BaseModel
 from django.db.models import permalink
 
+from discobolus.core.models import BaseModel
+from discobolus.server.models import Server
 
 class BaseDisk(BaseModel):
 
@@ -19,6 +20,7 @@ class BaseDisk(BaseModel):
 class Disk(BaseDisk):
 
     uuid = models.CharField(max_length=200)
+    server = models.ForeignKey(Server)
 
     @permalink
     def get_absolute_url(self):
@@ -37,6 +39,7 @@ class Partition(BaseDisk):
 class MultipathDisk(BaseDisk):
 
     wwid = models.CharField(max_length=200)
+    server = models.ForeignKey(Server)
 
     @permalink
     def get_absolute_url(self):

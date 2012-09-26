@@ -35,7 +35,6 @@ class ConfigurationMainView(TemplateView):
             notification_settings.save()
         context = super(ConfigurationMainView, self).get_context_data(**kwargs)
         context['notification_settings'] = notification_settings
-        context['request'] = self.request
         return context
 
 
