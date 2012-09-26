@@ -21,6 +21,11 @@ TEMPLATES = {
 
 class AddServerWizard(CookieWizardView):
 
+    def __init__(self, *args, **kwargs):
+        self.connection_failed = True
+        super(AddServerWizard, self).__init__(*args, **kwargs)
+
+
     def get_template_names(self):
         return [TEMPLATES[self.steps.current]]
 
@@ -36,6 +41,12 @@ class AddServerWizard(CookieWizardView):
         server.user.add(self.request.user)
         server.save()
 
+    def get_context_data(self, form, **kwargs):
+        context = super(AddServerWizard, self).get_context_data(form=form, **kwargs)
+        context['request'] = self.request
+        context['connection_failed'] = self.connection_failed
+        return context
+
     def get_form_initial(self, step):
         if step == 'add_server_confirmation':
             data = self.get_cleaned_data_for_step('agent_network_address')
@@ -44,6 +55,7 @@ class AddServerWizard(CookieWizardView):
                 conn = rpyc.classic.connect(agent_network_address)
                 remote_platinfo = conn.modules['dmtcore.os.platinfo']
                 details = remote_platinfo.get_platform_details()
+                self.connection_failed = False
                 return {
                         'architecture': details.architecture,
                         'release': details.release,
@@ -56,6 +68,8 @@ class AddServerWizard(CookieWizardView):
                         }
             except KeyError:
                 pass
+            except Exception:
+                return {'agent_network_address': 'CANNNOT CONNECT'}
         return super(AddServerWizard, self).get_form_initial(step)
 
 class ServerListView(ListView):

@@ -12,11 +12,6 @@
 	        	<div class="well sidebar-nav" style="padding: 8px 0;">
         		
 				    <ul class="nav nav-list">
-				    	<li class="nav-header">Actions</li>
-				    	<li>
-							<a href="#" url="{% url server-create %}" data-target="#body-content" class="loadable-link">Attach a server
-				             </a>	
-				    	</li>
 				    	{% if linux_servers %}
 					    	<li class="nav-header">Linux</li>
 					    	{% for linux_server in linux_servers %}

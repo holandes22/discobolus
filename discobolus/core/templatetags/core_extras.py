@@ -16,3 +16,7 @@ def replace_under_with(value, arg):
 @register.filter()
 def field_type(field):
     return field.field.__class__.__name__
+
+@register.filter
+def is_false(arg):
+    return arg is False
