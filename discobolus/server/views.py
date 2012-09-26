@@ -9,8 +9,8 @@ from discobolus.server.models import Server
 from discobolus.server.forms import AgentNetworkAddressForm, ServerForm
 
 ADD_SERVER_WIZARD_FORMS = [
-                    ("agent_network_address",  AgentNetworkAddressForm),
-                    ("add_server_confirmation",  ServerForm),
+        ("agent_network_address",  AgentNetworkAddressForm),
+        ("add_server_confirmation",  ServerForm),
                     ]
 
 TEMPLATES = {

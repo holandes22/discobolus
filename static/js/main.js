@@ -64,13 +64,41 @@ function loadDeleteConfirmDialog(){
 	})	
 }
 
+function setCookie(c_name,value,exdays)
+{
+	var c_value;
+	var exdate = new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+	document.cookie = c_name + "=" + c_value;
+}
+
+function getCookie(c_name){
+	var i, x, y, ARRcookies = document.cookie.split(";");
+	for (i = 0; i < ARRcookies.length; i++)
+	{
+		x = ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y = ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x = x.replace(/^\s+|\s+$/g,"");
+		if (x == c_name)
+		{
+	    	return unescape(y);
+	    }
+	}
+}
+
 $(document).ready(function () {
+	$('#last-selected-server-alias').html(getCookie('last-selected-server-alias'))
+	
 	$('.server-selection').live('click', function(e){
-		addActiveClass(this);
-		LAST_SELECTED_SERVER = $(this).attr('server-alias')
-		LAST_SELECTED_SERVER_ID = $(this).attr('server-id')
-		$('#last-selected-server').html(LAST_SELECTED_SERVER)
+		addActiveClass(this);	
+		var last_selected_server_alias = $(this).attr('server-alias')
+		$('#last-selected-server-alias').html(last_selected_server_alias)
+		setCookie('last-selected-server-alias', last_selected_server_alias, 7)
+		setCookie('last-selected-server-id', $(this).attr('server-id'), 7)
 	})
+
+
     $('.loadable-link').live('click', function(e) {
     	LAST_SELECTED_LOADABLE_LINK = this
         addActiveClass(this);
