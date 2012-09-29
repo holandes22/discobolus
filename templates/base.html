@@ -4,20 +4,20 @@
 <html>
     <head>
     	<meta charset="utf-8" />
-    	<title>Discobolus</title>
+    	<title>Maxwell</title>
         <!--CSS Files-->
-  		<link href="{{ STATIC_URL }}css/bootstrap/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
       <link href="{{ STATIC_URL }}css/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
+      <link href="{{ STATIC_URL }}css/bootstrap/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
       <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet" type="text/css">
       {% block extra_css %}
   		{% endblock extra_css %}
     </head>
     <body>
-        <div class="navbar navbar-fixed-top navbar-inverse">
+        <div class="navbar navbar-static-top navbar-inverse">
           <div class="navbar-inner">
             <div class="size-wrapper">
               <div class="container">
-                <a class="brand" href="{% url main %}">Discobolus</a>
+                <a class="brand" href="{% url main %}">Maxwell</a>
                 <ul class="nav">
                   <li class="divider-vertical"></li>
                   <li class="dropdown {% active request 'server/' %}">
@@ -39,39 +39,55 @@
                   </li>
                   <li>
                     <a href="#" ><span class="label label-info" id="last-selected-server-alias">{{ selected_server_alias }}</span></a>
-                  </li>     
+                  </li>    
+                </ul>
+                <ul class="nav">
                   <li class="divider-vertical"></li>
                   <li class="{% active request 'disk/' %}">
                     <a href="{% url disk-list %}"><i class="icon-hdd icon-white"></i> Disks</a>
                   </li>
                   <li class="{% active request 'lvm/' %}">
-                    <a href="#">Volume managers</a>
+                    <a href="#"><i class="icon-download-alt icon-white"></i> Volume Managers</a>
                   </li>
                   <li class="{% active request 'fs/' %}">
-                    <a href="#">Filesystems</a>
+                    <a href="#"><i class="icon-file icon-white"></i> Filesystems</a>
                   </li>
-                  <li class="{% active request 'activity/' %}">
-                    <a href="#">Activity</a>
+                  <li class="dropdown {% active request 'activity/' %}">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Activity <b class="caret"></b>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#"><i class="icon-tasks"></i> Maxwell tasks</a></li>
+                        <li><a href="#"><i class="icon-align-justify"></i> Logs</a></li>
+                    </ul>
                   </li>
                   <li class="divider-vertical"></li>
                 </ul>
-                {% if user.is_authenticated %}
-                  <div class="btn-group pull-right">
-                    <a class="btn" href="#"><i class="icon-user"></i> {{ user }}</a>
-                    <a class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                      <li><a href="{% url configuration-main %}"><i class="icon-wrench"></i> Configuration</a></li>
-                      <li class="divider"></li>
-                        <li><a href="{% url logout %}"><i class="icon-arrow-down"></i> Log out</a></li>
-                    </ul>
-                  </div>
-                {% else %}
-                  <a class="btn pull-right" href="{% url login %}"><i class="icon-user"></i> Log in</a>
-                {% endif %}
+                <ul class="nav pull-right">
+                    {% if user.is_authenticated %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                          <i class="icon-user icon-white"></i>  {{ user }} <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                          <li><a href="{% url configuration-main %}"><i class="icon-wrench"></i> Configuration</a></li>
+                          <li class="divider"></li>
+                          <li><a href="{% url logout %}"><i class="icon-off"></i> Log out</a></li>
+                      </ul>
+                    </li>
+                  {% else %}
+                    <li>
+                      <a href="{% url login %}"><i class="icon-user icon-white"></i> Log in</a>
+                    </li>
+                  {% endif %}
+                </ul>
               </div>
             </div>
           </div>
         </div>
+
+      <!-- ================================================== -->
+      <!--Body-->
       <div class="container">
         <div class="modal hide" id="editor-dialog"></div>
         <div class="modal hide" id="warning-dialog"></div>

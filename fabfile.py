@@ -45,6 +45,10 @@ def vagrant():
     env.key_filename = result.split()[1]
 
 
+def pip_install_dev():
+    with cd('/vagrant'):
+        sudo('pip install django-debug-toolbar')
+
 def pip_install():
     with cd('/vagrant'):
         sudo('pip install -r requirements.txt')

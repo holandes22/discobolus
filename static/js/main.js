@@ -1,6 +1,4 @@
 var LAST_SELECTED_LOADABLE_LINK
-var LAST_SELECTED_SERVER_ALIAS = ""
-var LAST_SELECTED_SERVER_ID = null
 
 function addActiveClass(element){
     $(".loadable-link").parent().removeClass('active')
@@ -81,9 +79,13 @@ $(document).ready(function () {
 		addActiveClass(this);
 		var url = '/server/selected/' + $(this).attr('server-id') + '/set'
 		// Set selected server for session. Server returns server alias
-		$('#last-selected-server-alias').load(url);
+		$('#last-selected-server-alias').load(url, function(){
+			// TODO: A way to reload the list url of the section
+			// since if we are on a details page, we will show it for
+			// an incorrect resource
+			location.reload();
+		});
 	})
-
 
     $('.loadable-link').live('click', function(e) {
     	LAST_SELECTED_LOADABLE_LINK = this

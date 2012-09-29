@@ -1,7 +1,7 @@
 # Django settings for discobolus project.
 import os
 from django.core.urlresolvers import reverse_lazy
-import django.conf.global_settings as DEFAULT_SETTINGS
+from django.conf import global_settings as DEFAULT_SETTINGS
 
 APP_DIR = os.path.abspath(os.path.dirname(globals()['__file__']))
 APP_PARENT_DIR = os.path.dirname(APP_DIR)
@@ -110,7 +110,10 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
+
+INTERNAL_IPS = ('127.0.0.1',)
 
 ROOT_URLCONF = 'discobolus.urls'
 
@@ -132,6 +135,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'debug_toolbar',
     'south',
     'discobolus.core',
     'discobolus.disk',
@@ -167,3 +171,25 @@ LOGGING = {
         },
     }
 }
+
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.version.VersionDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
+    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+    'debug_toolbar.panels.headers.HeaderDebugPanel',
+    'debug_toolbar.panels.profiling.ProfilingDebugPanel',
+    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+    'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar.panels.template.TemplateDebugPanel',
+    'debug_toolbar.panels.cache.CacheDebugPanel',
+    'debug_toolbar.panels.signals.SignalDebugPanel',
+    'debug_toolbar.panels.logger.LoggingPanel',
+)
+
+def custom_show_toolbar(request):
+    return True
+
+DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar,
+        }
+
