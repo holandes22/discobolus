@@ -4,6 +4,10 @@ from django.views.generic import ListView, UpdateView
 from django.contrib.formtools.wizard.views import CookieWizardView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.sessions.models import Session
+from django.contrib.sessions.backends.db import SessionStore
 
 from discobolus.core.models import get_permalink
 from discobolus.server.models import Server
@@ -20,12 +24,30 @@ TEMPLATES = {
             }
 
 
+
+@receiver(post_save, sender=Server)
+def handle_server_alias_update(sender, instance, **kwargs):
+    # If you set a dispatch_uid, remove instance from args
+    # and instead try obtaining it from kwargs
+    for session in Session.objects.all():
+        try:
+            if int(session.get_decoded()['server_pk']) == instance.pk:
+                # We only change if the modified instance is the one currently selected
+                session_store = SessionStore(session_key=session.session_key)
+                session_store['selected_server_alias'] = instance.alias
+                session_store.save()
+                return
+        except KeyError:
+            continue
+
+
 @login_required
 def set_selected_server(request, server_pk):
     request.session['server_pk'] = server_pk
     server = get_object_or_404(Server, pk=server_pk)
     request.session['selected_server_alias'] = server.alias
     return HttpResponse(server.alias)
+
 
 class AddServerWizard(CookieWizardView):
 

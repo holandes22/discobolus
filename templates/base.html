@@ -30,7 +30,7 @@
                         <li class="nav-header">Select a Server</li>
                         {% if user.get_profile.has_servers %}
                           {% for server in request.user.get_profile.get_servers %}
-                            <li><a href="#" class="server-selection" server-id="{{ server.pk }}">{{ server }}</a></li>
+                            <li><a href="#" class="server-selection" server-id="{{ server.pk }}">{{ server.alias }}</a></li>
                           {% endfor %}
                         {% else %}
                           <li><a href="#">No servers for this account</a></li>
