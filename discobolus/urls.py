@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^disk/', include('discobolus.disk.urls')),
     url(r'^configuration/', include('discobolus.configuration.urls')),
     url(r'^server/', include('discobolus.server.urls')),
+    url(r'^lvm/', include('discobolus.lvm.urls')),
     url(r'^login/$', 'django.contrib.auth.views.login', name="login"),
     url(r'^logout/$', 'django.contrib.auth.views.logout', name="logout"),
     # Examples:

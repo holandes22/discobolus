@@ -46,8 +46,15 @@
                   <li class="{% active request 'disk/' %}">
                     <a href="{% url disk-list %}"><i class="icon-hdd icon-white"></i> Disks</a>
                   </li>
-                  <li class="{% active request 'lvm/' %}">
-                    <a href="#"><i class="icon-download-alt icon-white"></i> Volume Managers</a>
+                  <li class="dropdown {% active request 'lvm/' %}">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="icon-download-alt icon-white"></i> Volume Manager <b class="caret"></b>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="{% url pv-list %}"></i> Physical Volumes</a></li>
+                        <li><a href="#"></i> Volume Groups</a></li>
+                        <li><a href="#"></i> Logical Volumes</a></li>
+                    </ul>
                   </li>
                   <li class="{% active request 'fs/' %}">
                     <a href="#"><i class="icon-file icon-white"></i> Filesystems</a>
