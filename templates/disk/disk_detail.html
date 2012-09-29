@@ -6,31 +6,27 @@
 		<li class="active">Disk Details</a></li>
 	</ul>
 
-	<h2>Disk Details</h2>
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-			{% for key, value in disk.get_model_attrs %}
-				<th>{{ key|replace_under_with:" "|capfirst }}</th>
+	<table class="table table-hover table-bordered table-condensed">
+		<tbody>
+			{% for key, value in disk.get_model_attrs %}	
+		        <tr>
+		        	<td>
+		        		<strong>{{ key|replace_under_with:" "|capfirst }}</strong>
+		        	</td>
+		        	<td>
+			       		{{ value }}
+		        	</td>
+		        </tr>
 			{% endfor %}
-			<th>Partitions</th>
-			</tr>
-		</thead>
-	    <tbody>
-	        <tr>
-				{% for key, value in disk.get_model_attrs %}
-		            <td>{{ value }}</td>
-				{% endfor %}
-				<td>
-					{% for partition in disk.partition_set.all %}
-						<ul>
-							<li><a href="{{ partition.get_absolute_url }}">{{ partition.name }}</a></li>
-						</ul>
-					{% empty %}
-						<strong>None</strong>
-					{% endfor %}
-				</td>
-	        </tr>
-	    </tbody>
+			</tbody>	
 	</table>
+
+	<legend>Partitions</legend>
+	{% for partition in disk.partition_set.all %}
+		<ul>
+			<li><a href="{{ partition.get_absolute_url }}">{{ partition.name }}</a></li>
+		</ul>
+	{% empty %}
+		<strong>{{ disk.name}} has no partitions</strong>
+	{% endfor %}
 {% endblock body %}
