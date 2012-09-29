@@ -141,6 +141,7 @@ INSTALLED_APPS = (
     'discobolus.disk',
     'discobolus.configuration',
     'discobolus.server',
+    'discobolus.lvm',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -191,5 +192,6 @@ def custom_show_toolbar(request):
 
 DEBUG_TOOLBAR_CONFIG = {
         'SHOW_TOOLBAR_CALLBACK': custom_show_toolbar,
+        'INTERCEPT_REDIRECTS': False,
         }
 

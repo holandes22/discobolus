@@ -8,21 +8,21 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-			{% for key, value in multipath_disk.0.get_model_attrs %}
+			{% for key, value in multipathdisk.get_model_attrs %}
 				<th>{{ key|replace_under_with:" "|capfirst }}</th>
 			{% endfor %}	
 			</tr>
 		</thead>
 	    <tbody>
 	        <tr>
-				{% for key, value in multipath_disk.0.get_model_attrs %}
+				{% for key, value in multipathdisk.get_model_attrs %}
 		            <td>{{ value }}</td>
 				{% endfor %}
 	        </tr>
 	    </tbody>
 	</table>
 	
-	{% for path_group in path_groups %}
+	{% for path_group in multipathdisk.pathgroup_set.all %}
 		<legend>Path group {{ forloop.counter }}</legend>
 		<span class="label {% if path_group.is_active %}label-info{% else %}label-important{% endif %}">
 			Path group state: {{ path_group.state }}

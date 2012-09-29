@@ -20,7 +20,7 @@ class BaseDisk(BaseModel):
 class Disk(BaseDisk):
 
     uuid = models.CharField(max_length=200)
-    server = models.ForeignKey(Server)
+    server = models.ForeignKey(Server, unique=True)
 
     @permalink
     def get_absolute_url(self):
@@ -39,7 +39,7 @@ class Partition(BaseDisk):
 class MultipathDisk(BaseDisk):
 
     wwid = models.CharField(max_length=200)
-    server = models.ForeignKey(Server)
+    server = models.ForeignKey(Server, unique=True)
 
     @permalink
     def get_absolute_url(self):
