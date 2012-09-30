@@ -4,10 +4,6 @@ from django.views.generic import ListView, UpdateView
 from django.contrib.formtools.wizard.views import CookieWizardView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.contrib.sessions.models import Session
-from django.contrib.sessions.backends.db import SessionStore
 
 from discobolus.core.models import get_permalink
 from discobolus.server.models import Server
@@ -22,23 +18,6 @@ TEMPLATES = {
             "agent_network_address": "server/agent_network_address.html",
             "add_server_confirmation": "server/add_server_confirmation.html",
             }
-
-
-
-@receiver(post_save, sender=Server)
-def handle_server_alias_update(sender, instance, **kwargs):
-    # If you set a dispatch_uid, remove instance from args
-    # and instead try obtaining it from kwargs
-    for session in Session.objects.all():
-        try:
-            if int(session.get_decoded()['server_pk']) == instance.pk:
-                # We only change if the modified instance is the one currently selected
-                session_store = SessionStore(session_key=session.session_key)
-                session_store['selected_server_alias'] = instance.alias
-                session_store.save()
-                return
-        except KeyError:
-            continue
 
 
 @login_required
@@ -100,6 +79,7 @@ class AddServerWizard(CookieWizardView):
                 return {'agent_network_address': 'CANNNOT CONNECT'}
         return super(AddServerWizard, self).get_form_initial(step)
 
+
 class ServerListView(ListView):
 
     model = Server
@@ -110,17 +90,27 @@ class ServerListView(ListView):
                 user=self.request.user)
         context['windows_servers'] = Server.objects.filter(system__icontains='windows',
                 user=self.request.user)
-        context['other_servers'] = Server.objects.filter(user=self.request.user).exclude(system__icontains='windows').exclude(system__icontains='linux')
+        context['other_servers'] = Server.objects.filter(user=
+                self.request.user).exclude(system__icontains='windows').exclude(system__icontains='linux')
         return context
+
 
 class ServerUpdateView(UpdateView):
 
     form_class = ServerForm
     template_name = 'server/server_details.html'
 
-
     def get_object(self):
         return Server.objects.get(pk=self.kwargs['pk'])
+
+    def form_valid(self, form):
+        # Update the session data
+        # Tried using post_save signal but it was convoluted to obtain the
+        # session data
+        instance = form.save(commit=False)
+        if int(self.request.session['server_pk']) == instance.pk:
+            self.request.session['selected_server_alias'] = instance.alias
+        return super(ServerUpdateView, self).form_valid(form)
 
     def get_success_url(self):
         return get_permalink('server-list')
