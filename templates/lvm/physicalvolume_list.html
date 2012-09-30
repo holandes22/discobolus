@@ -13,20 +13,22 @@
 			</div>
 		</div>
 		{% endif %}
-		{% if pvs %}			
-			<div class="span6">
-					<div class="well" style="padding: 8px 0;">
-						<ul class="nav nav-list">
-								<li class="nav-header">Physical Volumes</li>
-								{% for pv in pvs %}
-								<li>
-									<a href="{{ pv.get_absolute_url }}">{{ pv }}</a>
-								</li>
-								{% endfor %}
-						</ul>
-					</div>
-			</div>
-		{% endif %}
+		<div class="span6">		
+			<ul class="nav nav-list well">
+					<li class="nav-header">Physical Volumes</li>
+					{% for pv in pvs %}
+					<li>
+						<a href="{{ pv.get_absolute_url }}">{{ pv }}</a>
+					</li>
+					{% empty %}
+					<li>
+						<strong>No Physical Volumes</strong>
+					</li>					
+					{% endfor %}
+
+			</ul>
+		</div>
+
 	</div>
 {% endblock body %}
 

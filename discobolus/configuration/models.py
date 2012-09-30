@@ -16,7 +16,6 @@ post_save.connect(create_user_profile, sender=User)
 class UserProfile(models.Model):
     # This field is required.
     user = models.OneToOneField(User)
-    current_server = None
 
     def get_servers(self):
         return Server.objects.filter(user=self)
