@@ -62,17 +62,6 @@ function loadDeleteConfirmDialog(){
 	})	
 }
 
-function loadDiskListForSelectedServer(){
-	$('#last-selected-server-alias').html(getCookie('last-selected-server-alias'))
-	var url = '/disk/list/by/server/' + getCookie('last-selected-server-id') + '/';
-	this.document.location.href = url;
-}
-
-function setSelectedServer(server_pk){
-	var url = '/server/selected/' + server_pk + '/set'
-	$.get(url);
-}
-
 $(document).ready(function () {
 	
 	$('.server-selection').live('click', function(e){

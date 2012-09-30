@@ -9,8 +9,6 @@ class PhysicalVolumeListView(ListView):
         context = super(PhysicalVolumeListView, self).get_context_data(**kwargs)
         if 'server_pk' in self.request.session:
             context['pvs'] = PhysicalVolume.objects.filter(server=self.request.session['server_pk'])
-        else:
-            context['server_not_selected'] = True
         return context
 
 class PhysicalVolumeDetailView(DetailView):
