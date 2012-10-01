@@ -1,0 +1,24 @@
+<div class="row">
+	{% if server_not_selected %}
+	<div class="span12">
+		<div class="alert alert-info">
+		  <button type="button" class="close" data-dismiss="alert">×</button>
+		  <strong>Server not selected.</strong>
+		</div>
+	</div>
+	{% else %}
+	<div class="span6">		
+		<ul class="nav nav-list well">
+			{% for pv in objects %}
+			<li>
+				<a href="{{ pv.get_absolute_url }}">{{ pv }}</a>
+			</li>
+			{% empty %}
+			<li>
+				<strong>No Physical Volumes</strong>
+			</li>					
+			{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+</div>
