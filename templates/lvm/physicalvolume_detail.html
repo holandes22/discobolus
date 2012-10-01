@@ -1,23 +1,10 @@
 {% extends "base.html" %}
-{% load core_extras %}
 {% block body %}
 	<ul class="breadcrumb">
 		<li><a href="{% url pv-list %}">Physical Volumes</a><span class="divider">/</span></li>
 		<li class="active">Physical Volume Details</li>
 	</ul>
-	{{ pv.disk_device.name }}
-	<table class="table table-hover table-bordered table-condensed">
-		<tbody>
-			{% for key, value in pv.get_model_attrs %}	
-		        <tr>
-		        	<td>
-		        		<strong>{{ key|replace_under_with:" "|capfirst }}</strong>
-		        	</td>
-		        	<td>
-			       		{{ value }}
-		        	</td>
-		        </tr>
-			{% endfor %}
-			</tbody>	
-	</table>
+	{{ object.disk_device.name }}
+
+	{% include "generic_details_2column_table.html" %}
 {% endblock body %}

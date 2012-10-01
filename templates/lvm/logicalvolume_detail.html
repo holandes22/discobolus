@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block body %}
+	<ul class="breadcrumb">
+		<li><a href="{% url pv-list %}">Logical Volumes</a><span class="divider">/</span></li>
+		<li class="active">Logical Volume Details</li>
+	</ul>
+	{% include "generic_details_2column_table.html" %}
+{% endblock body %}
