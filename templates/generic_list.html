@@ -9,13 +9,13 @@
 	{% else %}
 	<div class="span6">		
 		<ul class="nav nav-list well">
-			{% for pv in objects %}
+			{% for object in objects %}
 			<li>
-				<a href="{{ pv.get_absolute_url }}">{{ pv }}</a>
+				<a href="{{ object.get_absolute_url }}">{{ object }}</a>
 			</li>
 			{% empty %}
 			<li>
-				<strong>No Physical Volumes</strong>
+				<strong>None</strong>
 			</li>					
 			{% endfor %}
 		</ul>
