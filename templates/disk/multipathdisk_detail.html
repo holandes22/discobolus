@@ -1,6 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_server_selection.html" %}
 {% load core_extras %}
-{% block body %}
+{% block right_pane %}
 	<ul class="breadcrumb">
 		<li><a href="{% url disk-list %}">Disks</a><span class="divider">/</span></li>
 		<li class="active">Multipath Disk Details</li>
@@ -54,4 +54,4 @@
 		    </tbody>	
 		</table>
 	{% endfor %}
-{% endblock body %}
+{% endblock right_pane %}

@@ -23,9 +23,7 @@ TEMPLATES = {
 @login_required
 def set_selected_server(request, server_pk):
     request.session['server_pk'] = server_pk
-    server = get_object_or_404(Server, pk=server_pk)
-    request.session['selected_server_alias'] = server.alias
-    return HttpResponse(server.alias)
+    return HttpResponse()
 
 
 class AddServerWizard(CookieWizardView):
@@ -102,15 +100,6 @@ class ServerUpdateView(UpdateView):
 
     def get_object(self):
         return Server.objects.get(pk=self.kwargs['pk'])
-
-    def form_valid(self, form):
-        # Update the session data
-        # Tried using post_save signal but it was convoluted to obtain the
-        # session data
-        instance = form.save(commit=False)
-        if int(self.request.session['server_pk']) == instance.pk:
-            self.request.session['selected_server_alias'] = instance.alias
-        return super(ServerUpdateView, self).form_valid(form)
 
     def get_success_url(self):
         return get_permalink('server-list')

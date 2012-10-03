@@ -9,6 +9,13 @@ def active(request, pattern):
         return 'active'
     return ''
 
+@register.simple_tag
+def active_server(request, server_pk):
+    if 'server_pk' in request.session and \
+        int(request.session['server_pk']) == server_pk:
+        return 'active'
+    return ''
+
 @register.filter()
 def replace_under_with(value, arg):
     return value.replace("_", arg)

@@ -1,6 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_server_selection.html" %}
 {% load core_extras %}
-{% block body %}
+{% block right_pane %}
 	<ul class="breadcrumb">
 		<li><a href="{% url disk-list %}">Disks</a><span class="divider">/</span></li>
 		<li><a href="{{ partition.parent.get_absolute_url }}">Disk Details</a><span class="divider">/</span></li>
@@ -24,4 +24,4 @@
 	        </tr>
 	    </tbody>
 	</table>
-{% endblock body %}
+{% endblock right_pane %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load core_extras %}
+{% block body %}
+<div class="row">
+  <div class="span3">
+	<ul class="nav nav-list well">
+		<li class="nav-header">Server list</li>
+		{% for server in request.user.get_profile.get_servers %}
+		<li class="{% active_server request server.pk %}">
+			<a href="#" class="server-selection" server-id="{{ server.pk }}">{{ server.alias }}</a></li>
+		</li>
+		{% empty %}
+		<li><a href="#">No servers for this account</a></li>				
+		{% endfor %}
+	</ul>
+  </div>
+  <div class="span9">
+  {% block right_pane %}
+  {% endblock right_pane %}
+  </div>
+</div>
+{% endblock body %}

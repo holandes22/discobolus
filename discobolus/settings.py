@@ -31,7 +31,7 @@ LOGIN_REDIRECT_URL = reverse_lazy('main')
 
 TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
-    'discobolus.core.context_processors.selected_server_alias',
+    'discobolus.core.context_processors.selected_server_pk',
 )
 
 AUTH_PROFILE_MODULE = 'configuration.UserProfile'

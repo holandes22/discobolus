@@ -26,18 +26,8 @@
                         <li class="nav-header">Server Actions</li>
                         <li><a href="{% url server-create %}">Attach a Server</a></li>
                         <li><a href="{% url server-list %}">See My Servers</a></li>
-                        <li class="divider"></li>
-                        <li class="nav-header">Select a Server</li>
-                        {% for server in request.user.get_profile.get_servers %}
-                        <li><a href="#" class="server-selection" server-id="{{ server.pk }}">{{ server.alias }}</a></li>
-                        {% empty %}
-                        <li><a href="#">No servers for this account</a></li>
-                        {% endfor %}
                     </ul>
                   </li>
-                  <li>
-                    <a href="#" ><span class="label label-info" id="last-selected-server-alias">{{ selected_server_alias }}</span></a>
-                  </li>    
                 </ul>
                 <ul class="nav">
                   <li class="divider-vertical"></li>

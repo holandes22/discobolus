@@ -1,8 +1,9 @@
 var LAST_SELECTED_LOADABLE_LINK
 
 function addActiveClass(element){
-    $(".loadable-link").parent().removeClass('active')
-    $(element).parent().addClass('active')
+	var selector = $('.' + $(element).attr('class'));
+    selector.parent().removeClass('active');
+    $(element).parent().addClass('active');
 }
 function hideFormFieldTooltips(){
 	// Need to be separated and not boud to hide event of modal dialog, since 
@@ -68,10 +69,10 @@ $(document).ready(function () {
 		addActiveClass(this);
 		var url = '/server/selected/' + $(this).attr('server-id') + '/set'
 		// Set selected server for session. Server returns server alias
-		$('#last-selected-server-alias').load(url, function(){
+		$.get(url, function(){
 			// TODO: A way to reload the list url of the section
 			// since if we are on a details page, we will show it for
-			// an incorrect resource
+			// an incorrect resource, or at least redirect to the base page (/disk/1/details -> /disk/list/)
 			location.reload();
 		});
 	})

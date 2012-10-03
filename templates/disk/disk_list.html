@@ -1,47 +1,40 @@
-{% extends "base.html" %}
-{% block body %}
+{% extends "base_server_selection.html" %}
+{% block right_pane %}
 	<ul class="breadcrumb">
 		<li class="active">Disks</li>
 	</ul>
-
-	<div class="row">
-		{% if server_not_selected %}
-		<div class="span12">
-			<div class="alert alert-info">
-			  <button type="button" class="close" data-dismiss="alert">×</button>
-			  <strong>Server not selected.</strong>
-			</div>
+	{% if server_not_selected %}
+		<div class="alert alert-info">
+		  <button type="button" class="close" data-dismiss="alert">×</button>
+		  <strong>Server not selected.</strong>
 		</div>
-		{% endif %}
+	{% endif %}
+	<div class="row"> <!--Second lever row - span9-->
 		{% if disks %}			
-			<div class="span6">
-					<div class="well" style="padding: 8px 0;">
-						<ul class="nav nav-list">
-								<li class="nav-header">Local Disks</li>
-								{% for disk in disks %}
-								<li>
-									<a href="{{ disk.get_absolute_url }}">{{ disk }}</a>
-								</li>
-								{% endfor %}
-						</ul>
-					</div>
+			<div class="span4">
+				<ul class="nav nav-list well">
+					<li class="nav-header">Local Disks</li>
+					{% for disk in disks %}
+					<li>
+						<a href="{{ disk.get_absolute_url }}">{{ disk }}</a>
+					</li>
+					{% endfor %}
+				</ul>
 			</div>
 		{% endif %}
 		{% if multipath_disks %}
-			<div class="span6">
-					<div class="well" style="padding: 8px 0;">
-						<ul class="nav nav-list">
-								<li class="nav-header">Multipath Disks</li>
-								{% for multipath_disk in multipath_disks %}
-								<li>
-									<a href="{{ multipath_disk.get_absolute_url }}">{{ multipath_disk }}</a>
-								</li>
-								{% endfor %}
-						</ul>
-					</div>
+			<div class="span5">
+				<ul class="nav nav-list well">
+					<li class="nav-header">Multipath Disks</li>
+					{% for multipath_disk in multipath_disks %}
+					<li>
+						<a href="{{ multipath_disk.get_absolute_url }}">{{ multipath_disk }}</a>
+					</li>
+					{% endfor %}
+				</ul>
 			</div>
 		{% endif %}
 	</div>
-{% endblock body %}
+{% endblock right_pane %}
 
 
