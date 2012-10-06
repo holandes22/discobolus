@@ -1,7 +1,23 @@
 # Django settings for discobolus project.
 import os
+import djcelery
 from django.core.urlresolvers import reverse_lazy
 from django.conf import global_settings as DEFAULT_SETTINGS
+
+djcelery.setup_loader()
+# To use with rabbitmq, comment BROKER_BACKEND and uncomment the line below.
+# Rememember to set the HOST addr.
+
+CELERY_RESULT_BACKEND = "amqp"
+#BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
+
+# celery constants
+BROKER_HOST = "localhost"
+BROKER_PORT = 5672
+BROKER_USER = "guest"
+BROKER_PASSWORD = "guest"
+BROKER_VHOST = "/"
+CELERY_IMPORTS = ("discobolus.disk.tasks", )
 
 APP_DIR = os.path.abspath(os.path.dirname(globals()['__file__']))
 APP_PARENT_DIR = os.path.dirname(APP_DIR)
@@ -137,6 +153,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'debug_toolbar',
     'south',
+    'djkombu',
+    'djcelery',
     'discobolus.core',
     'discobolus.disk',
     'discobolus.configuration',

@@ -27,7 +27,7 @@ def setup():
         env.app_user = prompt("User to run the application", default='vagrant')
     require('app_user')
     generate_celery_defaults()
-    replace_sudoers()
+    #replace_sudoers()
     pip_install()
     syncdb()
 
@@ -73,7 +73,7 @@ def restart_celery():
 
 
 def runserver():
-    #restart_celery()
+    restart_celery()
     with cd('/vagrant'):
         run('python manage.py runserver [::]:8000')
 

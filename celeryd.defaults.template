@@ -1,0 +1,40 @@
+# Where to chdir at start.
+CELERYD_CHDIR="."
+
+# Name of the projects settings module.
+export DJANGO_SETTINGS_MODULE="discobolus.settings"
+
+# Path to celeryd
+CELERYD="$$CELERYD_CHDIR/manage.py celeryd"
+
+# Name of nodes to start, here we have a single node
+CELERYD_NODES="dmt.worker1"
+# or we could have three nodes:
+#CELERYD_NODES="w1 w2 w3"
+
+# Python interpreter from environment.
+# This relies on the virtualenv to be active, if not be specific
+ENV_PYTHON="python"
+#ENV_PYTHON="/home/pablo/virtualenvs/dmt/bin/python"
+
+# How to call "manage.py celeryd_multi"
+CELERYD_MULTI="$$ENV_PYTHON $$CELERYD_CHDIR/manage.py celeryd_multi"
+
+# How to call "manage.py celeryctl"
+CELERYCTL="$$ENV_PYTHON $$CELERYD_CHDIR/manage.py celeryctl"
+
+# Extra arguments to celeryd
+CELERYD_OPTS="--time-limit=300 --concurrency=8"
+
+# Name of the celery config module.
+#CELERY_CONFIG_MODULE="celeryconfig"
+
+# %n will be replaced with the nodename.
+CELERYD_LOG_FILE="/tmp/maxwell/%n.log"
+CELERYD_PID_FILE="/tmp/maxwell/%n.pid"
+
+# Workers should run as an unprivileged user.
+CELERYD_USER="${app_user}"
+CELERYD_GROUP="${app_user}"
+
+

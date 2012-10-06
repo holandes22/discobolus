@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from discobolus.core.models import get_permalink
 from discobolus.server.models import Server
 from discobolus.server.forms import AgentNetworkAddressForm, ServerForm
+from discobolus.server.tasks import build_disk_database
 
 ADD_SERVER_WIZARD_FORMS = [
         ("agent_network_address",  AgentNetworkAddressForm),
@@ -24,6 +25,16 @@ TEMPLATES = {
 def set_selected_server(request, server_pk):
     request.session['server_pk'] = server_pk
     return HttpResponse()
+
+def test_query_task(request):
+    from discobolus.server.tasks import get_disk_names
+    names = get_disk_names.delay(addr='192.168.1.120')
+    html = "<html>"
+    for name in names.get():
+        html += '<div>%s</div>' % name
+    html += '</html>'
+    return HttpResponse(html)
+
 
 
 class AddServerWizard(CookieWizardView):
@@ -46,6 +57,8 @@ class AddServerWizard(CookieWizardView):
         server.save()
         server.user.add(self.request.user)
         server.save()
+        # Fire tasks to start building the disk/lvm/fs info
+        build_disk_database.delay(server=server)
 
     def get_context_data(self, form, **kwargs):
         context = super(AddServerWizard, self).get_context_data(form=form, **kwargs)

@@ -1,7 +1,7 @@
 #south==0.7.6
 Django==1.4
 #cherrypy
-#celery
-#django-celery
-#django-kombu
+celery
+django-celery
+django-kombu
 #-e git+https://github.com/holandes22/dmtcore.git#egg=dmtcore
