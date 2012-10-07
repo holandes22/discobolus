@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-{% block body %}
+{% extends "base_server_selection.html" %}
+{% block right_pane %}
 	<ul class="breadcrumb">
 		<li><a href="{% url pv-list %}">Physical Volumes</a><span class="divider">/</span></li>
 		<li class="active">Physical Volume Details</li>
@@ -7,4 +7,4 @@
 	{{ object.disk_device.name }}
 
 	{% include "generic_details_2column_table.html" %}
-{% endblock body %}
+{% endblock right_pane %}

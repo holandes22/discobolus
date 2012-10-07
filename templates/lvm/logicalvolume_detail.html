@@ -1,8 +1,9 @@
-{% extends "base.html" %}
-{% block body %}
+{% extends "base_server_selection.html" %}
+
+{% block right_pane %}
 	<ul class="breadcrumb">
 		<li><a href="{% url pv-list %}">Logical Volumes</a><span class="divider">/</span></li>
 		<li class="active">Logical Volume Details</li>
 	</ul>
 	{% include "generic_details_2column_table.html" %}
-{% endblock body %}
+{% endblock right_pane %}
