@@ -58,16 +58,30 @@ def syncdb():
     with cd('/vagrant'):
         run('python manage.py syncdb --noinput', pty=True)
 
+def start_celery_event_cam():
+    with cd('/vagrant'):
+        run('python manage.py celerycam --detach --pidfile=/tmp/cam.pid --logfile=/tmp/cam.log')
+
+def kill_celery_even_cam_process():
+    try:
+        with open('/tmp/cam.pid', 'w') as f:
+            run('kill {0}'.format(f.read()))
+    except IOError:
+        pass
 
 def start_celery():
+    start_celery_event_cam()
     with cd('/vagrant'):
         run('./celeryd start')
 
 def stop_celery():
+    kill_celery_even_cam_process()
     with cd('/vagrant'):
         run('./celeryd stop')
 
 def restart_celery():
+    kill_celery_even_cam_process()
+    start_celery_event_cam()
     with cd('/vagrant'):
         run('./celeryd restart')
 

@@ -8,8 +8,11 @@ djcelery.setup_loader()
 # To use with rabbitmq, comment BROKER_BACKEND and uncomment the line below.
 # Rememember to set the HOST addr.
 
-CELERY_RESULT_BACKEND = "amqp"
+#BROKER_URL = "amqp://guest:guest@localhost:5672//"
+#CELERY_RESULT_BACKEND = "database"
+#CELERY_RESULT_DBURI = "sqlite:///discobolus.db"
 #BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
+#CELERY_RESULT_BACKEND = "amqp"
 
 # celery constants
 BROKER_HOST = "localhost"
