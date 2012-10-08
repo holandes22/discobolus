@@ -13,7 +13,7 @@ logger = get_task_logger(__name__)
 def build_disk_database(server):
     request = current_task.request
     logger.info('Executing {0}'.format(request.id))
-    conn = rpyc.classic.connect(server.agent_network_address)
+    conn = rpyc.classic.connect(server.agent_network_address, port=28812)
     remote_disk = conn.modules['dmtcore.disk']
     disks = remote_disk.get_disks()
     for disk in disks:
@@ -46,7 +46,7 @@ def build_disk_database(server):
 
 @task()
 def build_lvm_database(server):
-    conn = rpyc.classic.connect(server.agent_network_address)
+    conn = rpyc.classic.connect(server.agent_network_address, port=28812)
     remote_lvm = conn.modules['dmtcore.lvm']
     vm = remote_lvm.VolumeManager()
     pvs = vm.get_physical_volumes()

@@ -80,7 +80,7 @@ class AddServerWizard(CookieWizardView):
             data = self.get_cleaned_data_for_step('agent_network_address')
             try:
                 agent_network_address = data['agent_network_address']
-                conn = rpyc.classic.connect(agent_network_address)
+                conn = rpyc.classic.connect(agent_network_address, port=28812)
                 remote_platinfo = conn.modules['dmtcore.os.platinfo']
                 details = remote_platinfo.get_platform_details()
                 self.connection_failed = False

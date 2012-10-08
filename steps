@@ -1,0 +1,13 @@
+1) Run ubuntu-vm with rpyc
+rpyc port -> localhost:28812 forwarded to guest 18812
+ssh is 22222
+run rpyc_classi
+2) ssh to vagrant and run celerycam
+cd /vagrant
+python manage.py celerycam --detach --pidfile=/tmp/cam.pid --logfile=/tmp/cam.log
+3) run the maxwell server with fabric
+4) Open tab with Maxwell (login) and then tab with admin (on tasks section)
+show empty task queue
+5) Show GUI around (all empty)
+attach server (remember that rpyc addr is actually localhost due to port forwarding)
+and show tasks activity
