@@ -8,7 +8,6 @@ from django.shortcuts import get_object_or_404
 from discobolus.core.models import get_permalink
 from discobolus.server.models import Server
 from discobolus.server.forms import AgentNetworkAddressForm, ServerForm
-from discobolus.server.tasks import build_disk_database
 
 ADD_SERVER_WIZARD_FORMS = [
         ("agent_network_address",  AgentNetworkAddressForm),
@@ -35,7 +34,14 @@ def test_query_task(request):
     html += '</html>'
     return HttpResponse(html)
 
-
+def test_pvs_task(request):
+    from discobolus.server.tasks import get_pvs
+    names = get_pvs.delay(addr='192.168.1.120')
+    html = "<html>"
+    for name in names.get():
+        html += '<div>%s</div>' % name
+    html += '</html>'
+    return HttpResponse(html)
 
 class AddServerWizard(CookieWizardView):
 
@@ -51,6 +57,7 @@ class AddServerWizard(CookieWizardView):
         return HttpResponseRedirect('/')
 
     def add_the_new_server(self, form_list):
+        from discobolus.server.tasks import build_disk_database, build_lvm_database
         data = self.get_cleaned_data_for_step('add_server_confirmation')
         server = Server(**data)
         # user is ManyToMany field
@@ -58,7 +65,10 @@ class AddServerWizard(CookieWizardView):
         server.user.add(self.request.user)
         server.save()
         # Fire tasks to start building the disk/lvm/fs info
+        # Maybe it's better to chain this tasks as not sure what will
+        # happen on rpyc server if they run concurrently
         build_disk_database.delay(server=server)
+        build_lvm_database.delay(server=server)
 
     def get_context_data(self, form, **kwargs):
         context = super(AddServerWizard, self).get_context_data(form=form, **kwargs)
