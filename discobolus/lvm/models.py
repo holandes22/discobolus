@@ -47,5 +47,5 @@ class LogicalVolume(BaseLVMModel):
 
     @permalink
     def get_absolute_url(self):
-        return ('vg-detail', (), {'pk': self.pk})
+        return ('lv-detail', (), {'pk': self.pk})
 

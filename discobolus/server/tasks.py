@@ -4,7 +4,7 @@ from celery.utils.log import get_task_logger
 from celery import current_task
 
 from discobolus.disk.models import Disk, MultipathDisk, Partition
-from discobolus.lvm.models import PhysicalVolume
+from discobolus.lvm.models import PhysicalVolume, VolumeGroup, LogicalVolume
 
 logger = get_task_logger(__name__)
 
@@ -55,6 +55,20 @@ def build_lvm_database(server):
         instance.name = pv.name
         instance.size = 555
         instance.uuid = pv.uuid
+        instance.server = server
+        instance.save()
+    for vg in vm.get_volume_groups():
+        instance = VolumeGroup()
+        instance.name = vg.name
+        instance.size = 555
+        instance.uuid = vg.uuid
+        instance.server = server
+        instance.save()
+    for lv in vm.get_logical_volumes():
+        instance = LogicalVolume()
+        instance.name = lv.name
+        instance.size = 555
+        instance.uuid = lv.uuid
         instance.server = server
         instance.save()
 
